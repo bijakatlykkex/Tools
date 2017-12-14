@@ -1,0 +1,40 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+environment:
+  gitcryptfile: 
+    secure: rk2iETSFe0PDX2o8thHXBzDhxeGV4WODAq+q7puXNl23vW7R2fgso2GFkTtR+Y7c9RdEYEwSGDWPfKHhd1MkkW5rT5XWTJqzYiuvKK+1jrYF6a+Azj77ooexV7zB/iRoDgJtEEV7UCWsu7mQNNDiOtGnG3igTHcg4wlolj2P/TUYbCCiIE4A8TUB/0dBayt9zLmfv2kikRr3h02ure5W1ETJ+q74eWSkYTvUQlpjSZNNAhISiEuTusCtPEf7EA9ZZJY5ekQoLQCBi2jwU87a0Q==
+  password:
+    secure: TQrtDrPkquf/cX7MmjKNIg==
+before_build:
+- ps: >-
+    [IO.File]::WriteAllBytes("c:\\projects\\tools\\gitcrypt.key",[Convert]::FromBase64String($env:gitcryptfile))
+    
+    Start-FileDownload 'https://github.com/LykkeCity/git-crypt/releases/download/1.0.16/git-crypt.exe'
+    
+    cmd /r git config --global user.email "bijakatlykkex@gmail.com"
+    
+    cmd /r git config --global user.name "bijakatlykkex"
+    
+    cmd /r git stash
+    
+    cmd /r git-crypt unlock gitcrypt.key
+    
+    cmd /r git stash apply
+    
+    nuget restore
+build:
+  verbosity: minimal
+after_build:
+- ps: >-
+    $command=[string]::Format( "7z a OffchainHelper.zip C:\projects\tools\OffchainHelper\bin\Release -p{0}", $env:password)
+    
+    Invoke-Expression $command
+artifacts:
+- path: OffchainHelper.zip

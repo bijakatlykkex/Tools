@@ -1,3 +1,3 @@
 # Tools
 
-[![Build status](https://ci.appveyor.com/api/projects/status/lhvo8rn5x9x962gm?svg=true)](https://ci.appveyor.com/project/lykke/tools)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/bijakatlykkex/tools?branch=master&svg=true)](https://ci.appveyor.com/project/bijakatlykkex/tools)
