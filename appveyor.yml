@@ -33,6 +33,8 @@ build:
   verbosity: minimal
 after_build:
 - ps: >-
+    del  C:\projects\tools\OffchainHelper\bin\Release\OffchainHelper.exe.config
+    
     $command=[string]::Format( "7z a OffchainHelper.zip C:\projects\tools\OffchainHelper\bin\Release -p{0}", $env:password)
     
     Invoke-Expression $command
