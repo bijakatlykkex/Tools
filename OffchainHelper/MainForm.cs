@@ -113,9 +113,10 @@ namespace OffchainHelper
                         {
                             var keyBytes = initialKey.ToBytes();
                             keyBytes[0] = i;
-                            var ethAccount = new Account(keyBytes.ToHex());
-                            if (ethAccount.Address == ethPrivateAddr
-                                || ethAccount.Address == string.Concat("0x", ethPrivateAddr))
+                            ethPrivateAddr = ethPrivateAddr.ToLower();
+                            var ethAccount = new Account(keyBytes.ToHex()).Address.ToLower();
+                            if (ethAccount == ethPrivateAddr
+                                || ethAccount == string.Concat("0x", ethPrivateAddr))
                             {
                                 textGeneratedEthereumPrivateKey.Text = keyBytes.ToHex();
                                 ethPrivateKeyFound = true;
